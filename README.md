@@ -1,1 +1,1 @@
-# AspNetCoreStoreEnterprise
+# StoreEnterprise
