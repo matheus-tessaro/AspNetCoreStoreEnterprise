@@ -13,7 +13,7 @@ namespace SE.Identity.API.Configuration
 {
     public static class IdentityConfig
     {
-        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static void AddIdentityConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -48,16 +48,12 @@ namespace SE.Identity.API.Configuration
                         ValidIssuer = appSettings.Issuer
                     };
                 });
-
-            return services;
         }
 
-        public static IApplicationBuilder UseIdentityConfiguration(this IApplicationBuilder app)
+        public static void UseIdentityConfiguration(this IApplicationBuilder app)
         {
             app.UseAuthentication();
             app.UseAuthorization();
-
-            return app;
         }
     }
 }

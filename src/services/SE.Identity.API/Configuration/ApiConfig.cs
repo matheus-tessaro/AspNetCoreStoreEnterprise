@@ -7,13 +7,10 @@ namespace SE.Identity.API.Configuration
 {
     public static class ApiConfig
     {
-        public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
-        {
+        public static void AddApiConfiguration(this IServiceCollection services) =>
             services.AddControllers();
-            return services;
-        }
 
-        public static IApplicationBuilder UseApiConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
+        public static void UseApiConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
@@ -21,8 +18,6 @@ namespace SE.Identity.API.Configuration
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseIdentityConfiguration();
-
-            return app;
         }
     }
 }

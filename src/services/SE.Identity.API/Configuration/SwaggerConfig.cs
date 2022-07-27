@@ -9,8 +9,7 @@ namespace SE.Identity.API.Configuration
 {
     public static class SwaggerConfig
     {
-        public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
-        {
+        public static void AddSwaggerConfiguration(this IServiceCollection services) =>
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -31,18 +30,13 @@ namespace SE.Identity.API.Configuration
                 });
             });
 
-            return services;
-        }
-
-        public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
+        public static void UseSwaggerConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (!env.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreEnterprise Identity API v1"));
             }
-
-            return app;
         }
     }
 }
