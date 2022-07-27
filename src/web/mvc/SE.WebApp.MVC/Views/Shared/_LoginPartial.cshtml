@@ -1,0 +1,23 @@
+﻿@using SE.WebApp.MVC.Extensions
+@inject IUser AppUser
+
+<ul class="navbar-nav">
+    @if (AppUser.IsAuthenticated())
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" title="Manage">Hello, @AppUser.GetUserEmail()</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Identity" asp-action="Logout">Sign out</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item" style="padding-right: 30px;">
+            <a class="btn btn-success" asp-controller="Identity" asp-action="Register">Sign up</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary" asp-controller="Identity" asp-action="Login">Sign in</a>
+        </li>
+    }
+</ul>
