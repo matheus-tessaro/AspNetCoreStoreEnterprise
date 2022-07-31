@@ -37,7 +37,7 @@ namespace SE.Identity.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(UserRegistryViewModel model)
+        public async Task<ActionResult> Register([FromBody] UserRegistryViewModel model)
         {
             if (!ModelState.IsValid)
                 return CustomResponse(ModelState);
@@ -54,7 +54,7 @@ namespace SE.Identity.API.Controllers
         }
 
         [HttpPost("authentication")]
-        public async Task<ActionResult> Login(UserAuthenticationViewModel model)
+        public async Task<ActionResult> Login([FromBody] UserAuthenticationViewModel model)
         {
             if (!ModelState.IsValid)
                 return CustomResponse(ModelState);
