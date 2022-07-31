@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SE.WebApp.MVC.Controllers
 {
-    public class IdentityController : Controller
+    public class IdentityController : BaseController
     {
         private readonly IIdentityService _identityService;
         public IdentityController(IIdentityService authenticationService) => _identityService = authenticationService;
@@ -33,9 +33,10 @@ namespace SE.WebApp.MVC.Controllers
 
             UserLoginResponse response = await _identityService.Register(model);
 
-            if (false)
+            if (HasResponseErrors(response.ResponseResult))
                 return View(model);
 
+            await Authenticate(response);
             return RedirectToAction("Index", "Home");
         }
 
@@ -54,8 +55,11 @@ namespace SE.WebApp.MVC.Controllers
                 return View(model);
 
             UserLoginResponse response = await _identityService.Authentication(model);
-            await Authenticate(response);
 
+            if (HasResponseErrors(response.ResponseResult))
+                return View(model);
+
+            await Authenticate(response);
             return RedirectToAction("Index", "Home");
         }
 

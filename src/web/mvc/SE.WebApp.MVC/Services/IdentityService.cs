@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SE.WebApp.MVC.Services
 {
-    public class IdentityService : IIdentityService
+    public class IdentityService : Service, IIdentityService
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
@@ -21,19 +21,31 @@ namespace SE.WebApp.MVC.Services
 
         public async Task<UserLoginResponse> Authentication(UserAuthenticationViewModel model)
         {
-            StringContent content = new(JsonSerializer.Serialize(model), Encoding.UTF8, "appliation/json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:44325/api/identity/authentication", content);
-            return JsonSerializer.Deserialize<UserLoginResponse>(await response?.Content.ReadAsStringAsync(), _jsonSerializerOptions);
+            StringContent content = GetStringContent(model);
+            return await PostRequest(content, "https://localhost:44325/api/identity/authentication");
         }
 
         public async Task<UserLoginResponse> Register(UserRegistryViewModel model)
         {
+            StringContent content = GetStringContent(model);
+            return await PostRequest(content, "https://localhost:44325/api/identity/register");
+        }
+
+        private static StringContent GetStringContent(dynamic model)
+        {
             StringContent content = new(JsonSerializer.Serialize(model), Encoding.UTF8, "appliation/json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:44325/api/identity/register", content);
+            return content;
+        }
+
+        private async Task<UserLoginResponse> PostRequest(StringContent content, string requestUri)
+        {
+            HttpResponseMessage response = await _httpClient.PostAsync(requestUri, content);
+
+            if (!HandleResponseErrors(response))
+                return new UserLoginResponse { ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response?.Content.ReadAsStringAsync(), _jsonSerializerOptions) };
+
             return JsonSerializer.Deserialize<UserLoginResponse>(await response?.Content.ReadAsStringAsync(), _jsonSerializerOptions);
         }
     }
