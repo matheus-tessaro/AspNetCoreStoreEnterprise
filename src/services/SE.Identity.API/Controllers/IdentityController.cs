@@ -49,7 +49,7 @@ namespace SE.Identity.API.Controllers
                 EmailConfirmed = true
             };
 
-            IdentityResult result = await _userManager.CreateAsync(user);
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
                 return CustomResponse(await GenerateJwt(user.Email));
