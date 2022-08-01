@@ -26,7 +26,7 @@ namespace SE.WebApp.MVC.Extensions
             switch (httpRequestException.StatusCode)
             {
                 case HttpStatusCode.Unauthorized:
-                    httpContext.Response.Redirect("/login");
+                    httpContext.Response.Redirect($"/login?ReturnUrl={httpContext.Request.Path}");
                     return;
             }
 

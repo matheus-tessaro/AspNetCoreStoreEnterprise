@@ -42,15 +42,18 @@ namespace SE.WebApp.MVC.Controllers
 
         [HttpGet]
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> Login(UserAuthenticationViewModel model)
+        public async Task<ActionResult> Login(UserAuthenticationViewModel model, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (!ModelState.IsValid)
                 return View(model);
 
@@ -60,7 +63,11 @@ namespace SE.WebApp.MVC.Controllers
                 return View(model);
 
             await Authenticate(response);
-            return RedirectToAction("Index", "Home");
+
+            if (string.IsNullOrEmpty(returnUrl))
+                return RedirectToAction("Index", "Home");
+
+            return LocalRedirect(returnUrl);
         }
 
         [HttpGet]
