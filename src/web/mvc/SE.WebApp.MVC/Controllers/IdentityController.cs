@@ -34,7 +34,7 @@ namespace SE.WebApp.MVC.Controllers
             UserLoginResponse response = await _identityService.Register(model);
 
             if (HasResponseErrors(response.ResponseResult))
-                return View(model);
+                return View("Registry", model);
 
             await Authenticate(response);
             return RedirectToAction("Index", "Home");
@@ -67,6 +67,7 @@ namespace SE.WebApp.MVC.Controllers
         [Route("logout")]
         public async Task<ActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
 

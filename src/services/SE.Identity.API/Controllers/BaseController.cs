@@ -32,6 +32,8 @@ namespace SE.Identity.API.Controllers
 
         protected void AddErrors(string error) => Errors.Add(error);
 
+        protected void AddErrors(List<string> errors) => errors.ForEach(x => AddErrors(x));
+
         protected void ClearErrors() => Errors.Clear();
     }
 }

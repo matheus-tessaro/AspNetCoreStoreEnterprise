@@ -1,23 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SE.WebApp.MVC.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SE.WebApp.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -28,10 +15,33 @@ namespace SE.WebApp.MVC.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("error/{id:length(3,3)}")]
+        public IActionResult Error(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new ErrorViewModel { ErrorCode = id };
+
+            switch (model.ErrorCode)
+            {
+                case 500:
+                    model.Title = "An error occured";
+                    model.Message = "An error occured! Try again later or contact our support line.";
+                    break;
+
+                case 404:
+                    model.Title = "Page not found";
+                    model.Message = "The page you're trying to access doesn't exist! <br/ >If you have any doubts contact our support line.";
+                    break;
+
+                case 403:
+                    model.Title = "Access denied";
+                    model.Message = "You don't have permission do complete this action.";
+                    break;
+
+                default:
+                    return StatusCode(404);
+            }
+
+            return View("Error", model);
         }
     }
 }

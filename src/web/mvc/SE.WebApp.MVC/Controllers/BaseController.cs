@@ -8,8 +8,13 @@ namespace SE.WebApp.MVC.Controllers
     {
         protected bool HasResponseErrors(ResponseResult response)
         {
-            if (response != null && response.Errors.Messages.Any())
+            if (response != null && response.Errors.Errors.Any())
+            {
+                foreach (var message in response.Errors.Errors)
+                    ModelState.AddModelError(string.Empty, message);
+
                 return true;
+            }
 
             return false;
         }

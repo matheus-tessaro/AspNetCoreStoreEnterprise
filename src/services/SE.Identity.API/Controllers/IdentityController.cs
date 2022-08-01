@@ -50,7 +50,12 @@ namespace SE.Identity.API.Controllers
             };
 
             IdentityResult result = await _userManager.CreateAsync(user);
-            return result.Succeeded ? CustomResponse(await GenerateJwt(user.Email)) : CustomResponse(result.Errors.Select(x => x.Description));
+
+            if (result.Succeeded)
+                return CustomResponse(await GenerateJwt(user.Email));
+
+            AddErrors(result.Errors.Select(x => x.Description).ToList());
+            return CustomResponse();
         }
 
         [HttpPost("authentication")]
