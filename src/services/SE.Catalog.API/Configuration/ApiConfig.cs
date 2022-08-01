@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SE.Catalog.API.Data;
+using SE.WebApi.Core.Identity;
 
 namespace SE.Catalog.API.Configuration
 {
@@ -38,7 +39,7 @@ namespace SE.Catalog.API.Configuration
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("General");
-
+            app.UseAuthConfiguration();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

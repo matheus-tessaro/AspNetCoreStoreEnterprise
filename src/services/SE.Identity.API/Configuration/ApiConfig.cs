@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SE.WebApi.Core.Identity;
 
 namespace SE.Identity.API.Configuration
 {
@@ -17,7 +18,11 @@ namespace SE.Identity.API.Configuration
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseIdentityConfiguration();
+            app.UseAuthConfiguration();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

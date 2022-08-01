@@ -1,4 +1,4 @@
-﻿namespace SE.Identity.API.Extensions
+﻿namespace SE.WebApi.Core.Identity
 {
     public class AppSettings
     {

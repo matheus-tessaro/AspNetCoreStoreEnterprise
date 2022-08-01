@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SE.Catalog.API.Configuration;
+using SE.WebApi.Core.Identity;
 
 namespace SE.Catalog.API
 {
@@ -28,6 +29,7 @@ namespace SE.Catalog.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApiConfiguration(Configuration);
+            services.AddAuthConfiguration(Configuration);
             services.AddSwaggerConfiguration();
             services.RegisterServices();
         }
