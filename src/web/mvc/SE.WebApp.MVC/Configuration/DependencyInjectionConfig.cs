@@ -16,7 +16,8 @@ namespace SE.WebApp.MVC.Configuration
             services.AddHttpClient<IIdentityService, IdentityService>();
             services.AddHttpClient<ICatalogService, CatalogService>()
                     .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                    .AddTransientHttpErrorPolicy(c => c.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(600)));
+                    .AddPolicyHandler(PollyExtensions.GetRetryPolicyExtensions())
+                    .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AspNetUser>();

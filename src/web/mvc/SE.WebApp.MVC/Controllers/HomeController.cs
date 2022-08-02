@@ -15,6 +15,15 @@ namespace SE.WebApp.MVC.Controllers
             return View();
         }
 
+        [Route("service-unavailable")]
+        public IActionResult ServiceUnavailable() =>
+            View("Error", new ErrorViewModel
+            {
+                ErrorCode = 500,
+                Title = "Service unavailable",
+                Message = "The service is temporarily unavailable, this might occour due to user requests overload"
+            });
+
         [Route("error/{id:length(3,3)}")]
         public IActionResult Error(int id)
         {

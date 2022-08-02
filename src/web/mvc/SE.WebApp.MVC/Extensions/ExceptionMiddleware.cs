@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Polly.CircuitBreaker;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -19,6 +20,10 @@ namespace SE.WebApp.MVC.Extensions
             {
                 HandleRequestException(httpContext, ex);
             }
+            catch (BrokenCircuitException)
+            {
+                HandleCircuitBreakerException(httpContext);
+            }
         }
 
         private static void HandleRequestException(HttpContext httpContext, CustomHttpRequestException httpRequestException)
@@ -32,5 +37,8 @@ namespace SE.WebApp.MVC.Extensions
 
             httpContext.Response.StatusCode = (int)httpRequestException.StatusCode;
         }
+
+        private static void HandleCircuitBreakerException(HttpContext httpContext) =>
+            httpContext.Response.Redirect("/service-unavailable");
     }
 }
