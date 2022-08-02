@@ -1,0 +1,45 @@
+﻿@using SE.WebApp.MVC.Extensions
+@model IEnumerable<SE.WebApp.MVC.Models.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<section>
+    <div>
+        <div style="background-image: url(images/banners/Template.jpg); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover">
+            <div style="text-align: center;">
+                <img src="~/images/banners/nerdstore.png" />
+            </div>
+        </div>
+        <div class="container" style=" padding-top: 20px">
+            <div class="row">
+                @{
+                    foreach (var product in Model.OrderBy(x => x.Name))
+                    {
+                        <div class="col-md-3">
+                            <div href="#" class="card card-product-grid">
+                                <a asp-controller="Catalog" asp-action="ProductDetails" asp-route-id="@product.Id" class="img-wrap">
+                                    <img src="~/images/products/@product.Image" alt="@product.Name">
+                                </a>
+                                <figcaption class="info-wrap">
+                                    <a asp-controller="Catalog" asp-action="ProductDetails" asp-route-id="@product.Id" class="title">
+                                        <b> @product.Name</b>
+                                    </a>
+
+                                    <small class="card-text">
+                                        @this.StockMessage(product.QuantityInStock)<br/><br/>
+                                        @product.Description
+                                    </small>
+                                </figcaption>
+                                <div class="card-footer price mt-1">
+                                    <h3>@this.FormatCurrency(product.Price)</h3>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
