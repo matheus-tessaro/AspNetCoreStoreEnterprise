@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using SE.WebApp.MVC.Extensions;
@@ -12,6 +13,7 @@ namespace SE.WebApp.MVC.Configuration
     {
         public static void RegisterServices(this IServiceCollection services)
         {
+            services.AddSingleton<IValidationAttributeAdapterProvider, SSNValidationAttributeAdapterProvider>();
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
             services.AddHttpClient<IIdentityService, IdentityService>();
             services.AddHttpClient<ICatalogService, CatalogService>()

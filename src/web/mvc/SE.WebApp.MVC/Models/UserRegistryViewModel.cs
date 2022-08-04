@@ -1,9 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SE.WebApp.MVC.Extensions;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SE.WebApp.MVC.Models
 {
     public class UserRegistryViewModel
     {
+        [Required(ErrorMessage = "{0} is a required field")]
+        [DisplayName("Full Name")]
+        public string Name { get; set; }
+
+        [SSN]
+        [Required(ErrorMessage = "{0} is a required field")]
+        [DisplayName("Social Security Number")]
+        public string SocialSecurityNumber { get; set; }
+
         [Required(ErrorMessage = "{0} is required")]
         [EmailAddress(ErrorMessage = "Invalid {0}")]
         public string Email { get; set; }

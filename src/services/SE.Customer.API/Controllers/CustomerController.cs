@@ -13,8 +13,8 @@ namespace SE.Customers.API.Controllers
 
         public CustomerController(IMediatorHandler mediatorHandler) => _mediatorHandler = mediatorHandler;
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        [HttpPost("register")]
+        public async Task<IActionResult> Register()
         {
             return Ok();
         }
