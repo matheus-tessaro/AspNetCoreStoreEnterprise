@@ -23,7 +23,7 @@ namespace SE.Customers.API.Models
             State = state;
         }
 
-        public Guid ClientId { get; private set; }
+        public Guid CustomerId { get; private set; }
         public string Street { get; private set; }
         public string Number { get; private set; }
         public string Neighborhood { get; private set; }
