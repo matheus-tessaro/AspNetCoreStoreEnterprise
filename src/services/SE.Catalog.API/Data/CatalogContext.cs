@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using SE.Catalog.API.Models;
 using SE.Core.Data;
+using SE.Core.Messages;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +16,9 @@ namespace SE.Catalog.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<ValidationResult>();
+            modelBuilder.Ignore<Event>();
+
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(x => x.GetProperties().Where(y => y.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 

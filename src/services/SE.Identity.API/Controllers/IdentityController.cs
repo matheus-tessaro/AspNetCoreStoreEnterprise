@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SE.Identity.API.Models;
 using SE.Identity.API.Models.Internal;
+using SE.WebApi.Core.Controllers;
 using SE.WebApi.Core.Identity;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SE.Catalog.API.Models;
+using SE.WebApi.Core.Controllers;
 using SE.WebApi.Core.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ using System.Threading.Tasks;
 namespace SE.Catalog.API.Controllers
 {
     [Authorize]
-    [ApiController]
     [Route("api/catalog")]
-    public class CatalogController : ControllerBase
+    public class CatalogController : BaseController
     {
         private readonly IProductRepository _productRepository;
         public CatalogController(IProductRepository productRepository) => _productRepository = productRepository;
