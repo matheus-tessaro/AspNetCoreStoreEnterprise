@@ -1,7 +1,7 @@
 ﻿using SE.Core.DomainObjects;
 using System;
 
-namespace SE.Customer.API.Models
+namespace SE.Customers.API.Models
 {
     public class Address : Entity
     {
@@ -31,5 +31,6 @@ namespace SE.Customer.API.Models
         public string PostalCode { get; private set; }
         public string City { get; private set; }
         public string State { get; private set; }
+        public Customer Customer { get; protected set; }
     }
 }

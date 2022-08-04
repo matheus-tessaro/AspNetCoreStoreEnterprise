@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SE.Customer.API": {
+    "SE.Customers.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

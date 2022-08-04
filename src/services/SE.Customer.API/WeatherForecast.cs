@@ -1,6 +1,6 @@
 using System;
 
-namespace SE.Customer.API
+namespace SE.Customers.API
 {
     public class WeatherForecast
     {

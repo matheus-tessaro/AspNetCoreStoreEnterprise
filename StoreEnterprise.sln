@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SE.WebApi.Core", "src\build
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customer", "Customer", "{0DC4F022-9E37-472E-9E2A-D82A3793C72F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SE.Customer.API", "src\services\SE.Customer.API\SE.Customer.API.csproj", "{2D477459-C0BA-4C2E-AFB9-8B9569C5B4AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SE.Customers.API", "src\services\SE.Customer.API\SE.Customers.API.csproj", "{2D477459-C0BA-4C2E-AFB9-8B9569C5B4AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,27 @@
-﻿using System;
+﻿using SE.Core.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace SE.Core.DomainObjects
 {
     public abstract class Entity
     {
+        protected Entity() => Id = Guid.NewGuid();
+
         public Guid Id { get; set; }
+
+        private List<Event> _notifications;
+        public IReadOnlyCollection<Event> Notifications => _notifications?.AsReadOnly();
+
+        public void AddNotification(Event evnt)
+        {
+            _notifications ??= new List<Event>();
+            _notifications.Add(evnt);
+        }
+
+        public void RemoveNotification(Event evnt) => _notifications?.Remove(evnt);
+
+        public void ClearNotifications() => _notifications?.Clear();
 
         public override bool Equals(object obj)
         {

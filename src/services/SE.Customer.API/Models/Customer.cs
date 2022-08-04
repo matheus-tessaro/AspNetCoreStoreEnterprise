@@ -1,13 +1,13 @@
 ﻿using SE.Core.DomainObjects;
 using System;
 
-namespace SE.Customer.API.Models
+namespace SE.Customers.API.Models
 {
-    public class Client : Entity, IAggregateRoot
+    public class Customer : Entity, IAggregateRoot
     {
-        protected Client() { }
+        protected Customer() { }
 
-        public Client(Guid id, string name, string email, string socialSecurityNumber)
+        public Customer(Guid id, string name, string email, string socialSecurityNumber)
         {
             Id = id;
             Name = name;
