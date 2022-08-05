@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SE.Core.Mediator;
-using SE.Customers.API.Application.Commands;
 using SE.WebApi.Core.Controllers;
 using System.Threading.Tasks;
 

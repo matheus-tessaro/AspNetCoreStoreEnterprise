@@ -4,6 +4,12 @@ namespace SE.Identity.API.Models
 {
     public class UserRegistryViewModel
     {
+        [Required(ErrorMessage = "{0} is a required field")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "{0} is a required field")]
+        public string SocialSecurityNumber { get; set; }
+
         [Required(ErrorMessage = "{0} is required")]
         [EmailAddress(ErrorMessage = "Invalid {0}")]
         public string Email { get; set; }

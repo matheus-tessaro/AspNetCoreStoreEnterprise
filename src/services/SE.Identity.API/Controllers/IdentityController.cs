@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SE.Core.Messages.Integration;
 using SE.Identity.API.Models;
 using SE.Identity.API.Models.Internal;
+using SE.MessageBus;
 using SE.WebApi.Core.Controllers;
 using SE.WebApi.Core.Identity;
 using System;
@@ -26,15 +28,18 @@ namespace SE.Identity.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly IMessageBus _messageBus;
 
         public IdentityController(
             SignInManager<IdentityUser> signInManager, 
             UserManager<IdentityUser> userManager, 
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings,
+            IMessageBus messageBus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _messageBus = messageBus;
         }
 
         [HttpPost("register")]
@@ -53,7 +58,17 @@ namespace SE.Identity.API.Controllers
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
+            {
+                ResponseMessage customerResponse = await RegisterCustomer(model);
+
+                if (!customerResponse.ValidationResult.IsValid)
+                {
+                    await _userManager.DeleteAsync(user);
+                    return CustomResponse(customerResponse.ValidationResult);
+                }
+
                 return CustomResponse(await GenerateJwt(user.Email));
+            } 
 
             AddErrors(result.Errors.Select(x => x.Description).ToList());
             return CustomResponse();
@@ -78,6 +93,22 @@ namespace SE.Identity.API.Controllers
 
             AddErrors("Username or password is incorrect");
             return CustomResponse();
+        }
+
+        private async Task<ResponseMessage> RegisterCustomer([FromBody] UserRegistryViewModel model)
+        {
+            IdentityUser user = await _userManager.FindByEmailAsync(model.Email);
+            var integrationEvent = new UserRegisteredIntegrationEvent(Guid.Parse(user.Id), model.Name, model.Email, model.SocialSecurityNumber);
+
+            try
+            {
+                return await _messageBus.RequestAsync<UserRegisteredIntegrationEvent, ResponseMessage>(integrationEvent);
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
         }
 
         private async Task<UserLoginResponse> GenerateJwt(string email)

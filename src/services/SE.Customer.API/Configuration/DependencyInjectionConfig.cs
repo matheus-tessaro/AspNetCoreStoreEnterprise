@@ -7,6 +7,7 @@ using SE.Customers.API.Application.Events;
 using SE.Customers.API.Data;
 using SE.Customers.API.Data.Repository;
 using SE.Customers.API.Models;
+using SE.Customers.API.Services;
 
 namespace SE.Customers.API.Configuration
 {
@@ -19,6 +20,7 @@ namespace SE.Customers.API.Configuration
             services.AddScoped<INotificationHandler<RegisteredCustomerEvent>, CustomerEventHandler>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<CustomerContext>();
+            services.AddHostedService<CustomerRegistryIntegrationHandler>();
         }
     }
 }
